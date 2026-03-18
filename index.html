@@ -68,7 +68,6 @@
       overflow: hidden;
     }
 
-    /* Decorative large number */
     .hero-left::before {
       content: '01';
       position: absolute;
@@ -147,7 +146,6 @@
       overflow: hidden;
     }
 
-    /* Big stat */
     .hero-stat {
       position: absolute;
       top: 50%;
@@ -501,13 +499,21 @@
       </a>
     </div>
     <div class="join-right">
-      <form onsubmit="return false;">
-        <input type="email" placeholder="Your email — stay in the loop">
-        <button type="submit">I'm in</button>
-      </form>
-      <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;line-height:1.6;">
-        No spam. Occasional signal — when something worth knowing happens.
-      </p>
+      <div id="goveggie-form">
+        <form onsubmit="return false;">
+          <input type="email" id="goveggie-email" placeholder="Your email — stay in the loop">
+          <button type="button" onclick="submitGoveggie()">I'm in</button>
+        </form>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;line-height:1.6;">
+          No spam. Occasional signal — when something worth knowing happens.
+        </p>
+      </div>
+      <div id="goveggie-success" style="display:none;">
+        <p style="font-family:'Playfair Display',serif; font-style:italic; color:var(--leaf); font-size:1.2rem; margin-bottom:1rem;">You're in. Welcome to the movement.</p>
+        <a href="https://instagram.com/peaceloka" style="display:inline-block; background:var(--leaf); color:var(--cream); font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; padding:0.9rem 1.5rem; text-decoration:none;">
+          Follow @peaceloka →
+        </a>
+      </div>
     </div>
   </section>
 
@@ -522,6 +528,24 @@
     </nav>
     <a href="https://instagram.com/peaceloka" class="footer-ig">@peaceloka</a>
   </footer>
+
+<script>
+async function submitGoveggie() {
+  const email = document.getElementById('goveggie-email').value.trim();
+  if (!email) { alert('Please enter your email.'); return; }
+  const btn = document.querySelector('#goveggie-form button');
+  btn.textContent = 'Joining...';
+  btn.disabled = true;
+  try {
+    const url = new URL('https://script.google.com/macros/s/AKfycbyyJ3T_XLkDHb5W0uBb_gGleDvBdQ5czlpdK_ykFPJxkKx7SRAtWlGa0FqWLpG7qCyhCA/exec');
+    url.searchParams.append('email', email);
+    url.searchParams.append('source', 'goveggie.net');
+    await fetch(url.toString(), { method: 'GET', mode: 'no-cors' });
+  } catch(e) {}
+  document.getElementById('goveggie-form').style.display = 'none';
+  document.getElementById('goveggie-success').style.display = 'block';
+}
+</script>
 
 </body>
 </html>
